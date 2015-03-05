@@ -69,8 +69,8 @@ namespace mortgage_calculator.Model
             }
         }
 
-        double _speedAmount;
-        public double SpeedAmount 
+        double? _speedAmount;
+        public double? SpeedAmount 
         {
             get { return _speedAmount; }
             set
@@ -142,14 +142,19 @@ namespace mortgage_calculator.Model
             string tmpFile = Path.Combine(Path.GetTempPath(), Path.GetTempFileName());
 
             StringBuilder sb = new StringBuilder();
-            sb.Append("yield.py ");
+            sb.Append("yield_calcs.py ");
             sb.Append(this.Notional.ToString() + " ");
             sb.Append(this.Rate.ToString() + " ");
             sb.Append(this.Months.ToString() + " ");
             sb.Append(this.Price.ToString() + " ");
             sb.Append('\"' + tmpFile + '\"');
 
-
+            if(string.IsNullOrEmpty(this.SpeedType) &&
+                this.SpeedAmount.HasValue)
+            {
+                sb.Append("-speed_type " + this.SpeedType);
+                sb.Append(" -speed_amt" + this.SpeedAmount.ToString());
+            }
             
             Process proc = new Process();
             proc.StartInfo.UseShellExecute = false;
@@ -171,11 +176,23 @@ namespace mortgage_calculator.Model
 
                     RootObject obj = JsonConvert.DeserializeObject<RootObject>(buffer);
 
-                    this.Yield = obj.yield;
-                    this.Wal = obj.wal;
-                    this.MacaulayDuration = obj.macaulay_dur;
-                    this.ModifiedDuration = obj.modified_dur;
-                    this.Cashflows = new ObservableCollection<Cashflow>(obj.cashflows);
+                    if (obj != null)
+                    {
+                        this.Yield = obj.yield;
+                        this.Wal = obj.wal;
+                        this.MacaulayDuration = obj.macaulay_dur;
+                        this.ModifiedDuration = obj.modified_dur;
+                        this.Cashflows = new ObservableCollection<Cashflow>(obj.cashflows);
+                    }
+                    else
+                    {
+                        this.Yield = null;
+                        this.Wal = null;
+                        this.MacaulayDuration = null;
+                        this.ModifiedDuration = null;
+                        this.Cashflows = new ObservableCollection<Cashflow>();
+                    }
+
 
                     File.Delete(tmpFile);
                 }

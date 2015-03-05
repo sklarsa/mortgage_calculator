@@ -39,7 +39,7 @@
             <TextBox Grid.Column="1" Grid.Row="3" Width="50" HorizontalAlignment="Left"
                      Text="{Binding SpeedAmt,StringFormat='{}{0:0}',Mode=TwoWay}"/>
             <ComboBox Grid.Column="1" Grid.Row="3" Width="50" HorizontalAlignment="Right" 
-                      SelectedItem="{Binding SpeedType}">
+                      Text="{Binding SpeedType}">
                 <ComboBoxItem>CPR</ComboBoxItem>
                 <ComboBoxItem>PSA</ComboBoxItem>
                 <ComboBoxItem>SMM</ComboBoxItem>

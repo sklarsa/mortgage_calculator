@@ -203,13 +203,20 @@ def modified_dur(df, price):
 
 def main(argv):
     parser = argparse.ArgumentParser()
+    # Required args
     parser.add_argument('notional', type=float, help='notional loan amount')
     parser.add_argument('annual_rate', type=float, help='annual interest rate')
     parser.add_argument('months', type=int, help='term of the loan in months')
     parser.add_argument('price', type=float, help='price of loan')
+    parser.add_argument('output_path', metavar='O', help='file path of output')
+
+    # Optional args
     parser.add_argument('-speed_type', help='supports CPR, PSA, and SMM', choices=['cpr','psa','smm'])
     parser.add_argument('-speed_amt', type=float, help='speed level used in conjunction with speed_type')
-    parser.add_argument('output_path', metavar='O', help='file path of output')
+    parser.add_argument('-output_format', help='file type to export.  If xls or csv, only cashflows will be provided', 
+                        choices=['json', 'xls', 'csv'])
+    parser.add_argument('-image_path', help='outputs an chart of total cashflows, principal, and interest')
+    
     args = vars(parser.parse_args())
     
     if args['speed_type'] and args['speed_amt']:
@@ -221,19 +228,23 @@ def main(argv):
     else:
         df = amortization_schedule(args['notional'], args['annual_rate'], args['months']) 
 
-    
+    if args['output_format'] == 'json' or args['output_format'] == None:    
+        json_obj = {}
+        json_obj['cashflows'] = json.loads(df.to_json(orient='records', double_precision=2))
+        json_obj['yield'] = yld(df, args['price'])
+        json_obj['wal'] = wal(df)
+        json_obj['macaulay_dur'] = macaulay_dur(df, args['price'])
+        json_obj['modified_dur'] = modified_dur(df, args['price'])
 
-    json_obj = {}
-    json_obj['cashflows'] = json.loads(df.to_json(orient='records', double_precision=2))
-    json_obj['yield'] = yld(df, args['price'])
-    json_obj['wal'] = wal(df)
-    json_obj['macaulay_dur'] = macaulay_dur(df, args['price'])
-    json_obj['modified_dur'] = modified_dur(df, args['price'])
+        f = open(args['output_path'],'w')
+        f.write(json.dumps(json_obj))
+        f.close()
+    elif args['output_format'] == 'xls':
+        df.to_excel(args['output_path'])
+    elif args['output_format'] == 'csv':
+        df.to_csv(args['output_path'])
 
-    f = open(args['output_path'],'w')
-    f.write(json.dumps(json_obj))
-
-    f.close()
+    if args['image_path']:
 
 if __name__ == '__main__':
     main(sys.argv[1:])
