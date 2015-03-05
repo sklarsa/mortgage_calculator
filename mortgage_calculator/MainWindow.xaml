@@ -1,6 +1,8 @@
-﻿<Window x:Class="mortgage_calculator.MainWindow"
+<Window x:Class="mortgage_calculator.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:sparrow="http://sparrowtoolkit.codeplex.com/wpf"
+        xmlns:my="clr-namespace:mortgage_calculator.Model"
         Title="Simple Yield Calculator" Height="350" Width="525">
     <Grid>
         <Grid.ColumnDefinitions>
@@ -83,6 +85,15 @@
                 <RowDefinition Height=".6*" />
             </Grid.RowDefinitions>
 
+            <sparrow:SparrowChart Margin="10,10,10,10" x:Name="chart">
+                <sparrow:SparrowChart.XAxis>
+                    <sparrow:LinearXAxis />
+                </sparrow:SparrowChart.XAxis>
+                <sparrow:SparrowChart.YAxis>
+                    <sparrow:LinearYAxis/>
+                </sparrow:SparrowChart.YAxis>
+                <sparrow:LineSeries PointsSource="{Binding Cashflows}" XPath="period" YPath="balance" IsRefresh="True" />
+            </sparrow:SparrowChart>
 
             <DataGrid Grid.Row="1" 
                       ItemsSource="{Binding Cashflows}" 
