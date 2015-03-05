@@ -33,7 +33,14 @@ namespace mortgage_calculator
             Mortgage mtge = this.DataContext as Mortgage;
             if (mtge != null)
             {
-                mtge.Calculate();
+                try
+                {
+                    mtge.Calculate();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message + Environment.NewLine + ex.StackTrace, "Error");
+                }
             }
         }
 
@@ -52,7 +59,14 @@ namespace mortgage_calculator
                 Mortgage mtge = this.DataContext as Mortgage;
                 if (mtge != null)
                 {
-                    mtge.ExportToExcel(d.FileName);
+                    try
+                    {
+                        mtge.ExportToExcel(d.FileName);
+                    }             
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show(ex.Message + Environment.NewLine + ex.StackTrace, "Error");
+                    }
                 }
             };
 
@@ -75,7 +89,14 @@ namespace mortgage_calculator
                 Mortgage mtge = this.DataContext as Mortgage;
                 if (mtge != null)
                 {
-                    mtge.ExportToCSV(d.FileName);
+                    try
+                    {
+                        mtge.ExportToExcel(d.FileName);
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show(ex.Message + Environment.NewLine + ex.StackTrace, "Error");
+                    }
                 }
             };
 
