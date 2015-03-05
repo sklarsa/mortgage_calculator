@@ -154,8 +154,7 @@ namespace mortgage_calculator.Model
             string tmpFile = Path.Combine(Path.GetTempPath(), Path.GetTempFileName());
 
             StringBuilder sb = new StringBuilder();
-            sb.Append(CreateCoreArgs());
-            sb.Append('\"' + tmpFile + '\"');
+            sb.Append(CreateCoreArgs(tmpFile));
 
 
             Process proc = CreateProcess(sb.ToString());
@@ -201,8 +200,7 @@ namespace mortgage_calculator.Model
         public virtual void ExportToExcel(string path)
         {
             StringBuilder sb = new StringBuilder();
-            sb.Append(CreateCoreArgs());
-            sb.Append('\"' + path + '\"');
+            sb.Append(CreateCoreArgs(path));
             sb.Append(" -output_format xlsx");
 
             Process proc = CreateProcess(sb.ToString());
@@ -213,8 +211,7 @@ namespace mortgage_calculator.Model
         public virtual void ExportToCSV(string path)
         {
             StringBuilder sb = new StringBuilder();
-            sb.Append(CreateCoreArgs());
-            sb.Append('\"' + path + '\"');
+            sb.Append(CreateCoreArgs(path));
             sb.Append(" -output_format csv");
 
             Process proc = CreateProcess(sb.ToString());
@@ -254,7 +251,7 @@ namespace mortgage_calculator.Model
 
         }
 
-        private string CreateCoreArgs()
+        private string CreateCoreArgs(string outputPath)
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("yield_calcs.py ");
@@ -262,6 +259,7 @@ namespace mortgage_calculator.Model
             sb.Append(this.Rate.ToString() + " ");
             sb.Append(this.Months.ToString() + " ");
             sb.Append(this.Price.ToString() + " ");
+            sb.Append('\"' + outputPath + '\"');
 
             if (!string.IsNullOrEmpty(this.SpeedType) &&
                 this.SpeedAmount.HasValue)
