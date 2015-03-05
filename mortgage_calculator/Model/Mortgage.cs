@@ -11,6 +11,9 @@ using Newtonsoft.Json;
 
 namespace mortgage_calculator.Model
 {
+    /// <summary>
+    /// Models a mortgage that calculates various analytics and an amortization schedule
+    /// </summary>
     class Mortgage : INotifyPropertyChanged
     {
 
@@ -148,7 +151,12 @@ namespace mortgage_calculator.Model
                 NotifyPropertyChanged("Cashflows");
             }
         }
-
+        
+        /// <summary>
+        /// Calculates Yield, WAL, Macaulay Duration, Modified Duration, and an Amortization
+        /// Schedule for a Mortgage.
+        /// </summary>
+        /// <returns>The calculation process's exit code.</returns>
         public virtual int Calculate()
         {
             string tmpFile = Path.Combine(Path.GetTempPath(), Path.GetTempFileName());
@@ -196,7 +204,12 @@ namespace mortgage_calculator.Model
             return RunProcess(proc);
           
         }
-
+        
+        /// <summary>
+        /// Exports an amortization schedule for a mortgage to an Excel 2007 file
+        /// </summary>
+        /// <param name="path">The output file path</param>
+        /// <returns>The calculation process's exit code</returns>
         public virtual int ExportToExcel(string path)
         {
             StringBuilder sb = new StringBuilder();
@@ -208,6 +221,11 @@ namespace mortgage_calculator.Model
             return RunProcess(proc);
         }
 
+        /// <summary>
+        /// Exports an amortization schedule for a mortgage to a CSV file
+        /// </summary>
+        /// <param name="path">The output file path</param>
+        /// <returns>The calculation process's exit code</returns>
         public virtual int ExportToCSV(string path)
         {
             StringBuilder sb = new StringBuilder();
@@ -219,6 +237,11 @@ namespace mortgage_calculator.Model
             return RunProcess(proc);
         }
 
+        /// <summary>
+        /// Creates a Process object to run python in the Environment.CurrentDirectory
+        /// </summary>
+        /// <param name="args">Arg string to pass to python (including the script to run)</param>
+        /// <returns>A Process object</returns>
         private Process CreateProcess(string args)
         {
 
@@ -235,6 +258,11 @@ namespace mortgage_calculator.Model
             return proc;
         }
 
+        /// <summary>
+        /// Runs a Process object and writes the output to the Debug output
+        /// </summary>
+        /// <param name="proc">The Process to run</param>
+        /// <returns>The process exit code</returns>
         private int RunProcess(Process proc)
         {
             int exitCode;
@@ -251,6 +279,12 @@ namespace mortgage_calculator.Model
 
         }
 
+        /// <summary>
+        /// Creates a string containing the required arguments for yield_calcs.py using the
+        /// object's current values
+        /// </summary>
+        /// <param name="outputPath">The value for the output path parameter</param>
+        /// <returns>The argument string</returns>
         private string CreateCoreArgs(string outputPath)
         {
             StringBuilder sb = new StringBuilder();
