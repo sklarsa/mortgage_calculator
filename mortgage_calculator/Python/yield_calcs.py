@@ -229,6 +229,7 @@ def main(argv):
 
     if args['output_format'] == 'json' or args['output_format'] == None:    
         json_obj = {}
+        df['period'] = df.index.values
         json_obj['cashflows'] = json.loads(df.to_json(orient='records', double_precision=2))
         json_obj['yield'] = yld(df, args['price'])
         json_obj['wal'] = wal(df)
