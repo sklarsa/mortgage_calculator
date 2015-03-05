@@ -96,7 +96,7 @@ namespace mortgage_calculator
                 {
                     try
                     {
-                        mtge.ExportToExcel(d.FileName);
+                        mtge.ExportToCSV(d.FileName);
                     }
                     catch (Exception ex)
                     {
