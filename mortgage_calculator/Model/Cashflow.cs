@@ -6,6 +6,11 @@ using System.Threading.Tasks;
 
 namespace mortgage_calculator.Model
 {
+    /// <summary>
+    /// A wrapper object used to deserialize period cashflow data 
+    /// from JSON output from yield_calcs.py 
+    /// Generated using http://json2csharp.com/
+    /// </summary>
     class Cashflow
     {
         public double period { get; set; }
