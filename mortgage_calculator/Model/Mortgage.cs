@@ -138,17 +138,6 @@ namespace mortgage_calculator.Model
             }
         }
 
-        byte[] _imageBytes;
-        public byte[] ImageBytes
-        {
-            get { return _imageBytes; }
-            set
-            {
-                _imageBytes = value;
-                NotifyPropertyChanged("ImageBytes");
-            }
-        }
-
         ObservableCollection<Cashflow> _cashflows;
         public ObservableCollection<Cashflow> Cashflows
         {
@@ -216,8 +205,6 @@ namespace mortgage_calculator.Model
                         this.ModifiedDuration = null;
                         this.Cashflows = new ObservableCollection<Cashflow>();
                     }
-
-                    //todo: Grab image from matplotlib output and add data to ImageBytes property
 
                     File.Delete(tmpFile);
                 }

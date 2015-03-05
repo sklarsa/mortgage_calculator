@@ -84,7 +84,7 @@
                 <RowDefinition Height=".6*" />
             </Grid.RowDefinitions>
 
-            <Image Source="{Binding ImageBytes}" Grid.Row="0" />
+
             <DataGrid Grid.Row="1" 
                       ItemsSource="{Binding Cashflows}" 
                       AutoGenerateColumns="True"></DataGrid>

@@ -215,7 +215,6 @@ def main(argv):
     parser.add_argument('-speed_amt', type=float, help='speed level used in conjunction with speed_type')
     parser.add_argument('-output_format', help='file type to export.  If xls or csv, only cashflows will be provided', 
                         choices=['json', 'xls', 'csv'])
-    parser.add_argument('-image_path', help='outputs an chart of total cashflows, principal, and interest')
     
     args = vars(parser.parse_args())
     
