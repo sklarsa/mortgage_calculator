@@ -7,8 +7,8 @@ using System.Threading.Tasks;
 namespace mortgage_calculator.Model
 {
     /// <summary>
-    /// A wrapper object used to deserialize loan data from 
-    /// JSON output from yield_calcs.py
+    /// A wrapper object used to deserialize loan data and analytics 
+    /// from JSON output from yield_calcs.py
     /// Generated using http://json2csharp.com/
     /// </summary>
     class RootObject
