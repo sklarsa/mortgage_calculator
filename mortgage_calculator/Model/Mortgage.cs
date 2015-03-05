@@ -154,29 +154,12 @@ namespace mortgage_calculator.Model
             string tmpFile = Path.Combine(Path.GetTempPath(), Path.GetTempFileName());
 
             StringBuilder sb = new StringBuilder();
-            sb.Append("yield_calcs.py ");
-            sb.Append(this.Notional.ToString() + " ");
-            sb.Append(this.Rate.ToString() + " ");
-            sb.Append(this.Months.ToString() + " ");
-            sb.Append(this.Price.ToString() + " ");
+            sb.Append(CreateCoreArgs());
             sb.Append('\"' + tmpFile + '\"');
 
-            if(!string.IsNullOrEmpty(this.SpeedType) &&
-                this.SpeedAmount.HasValue)
-            {
-                sb.Append(" -speed_type " + this.SpeedType.ToLower());
-                sb.Append(" -speed_amt " + this.SpeedAmount.ToString());
-            }
-            
-            Process proc = new Process();
-            proc.StartInfo.UseShellExecute = false;
-            proc.StartInfo.WorkingDirectory = Path.Combine(Environment.CurrentDirectory, "Python");
-            proc.StartInfo.FileName = "python.exe";
-            proc.StartInfo.Arguments = sb.ToString();
-            proc.EnableRaisingEvents = true;
-            proc.StartInfo.RedirectStandardOutput = true;
-            proc.StartInfo.RedirectStandardError = true;
-            proc.StartInfo.CreateNoWindow = true;
+
+            Process proc = CreateProcess(sb.ToString());
+
             proc.Exited += (s, e) =>
             {
                 if (File.Exists(tmpFile))
@@ -211,24 +194,84 @@ namespace mortgage_calculator.Model
 
             };
 
+            RunProcess(proc);
+          
+        }
+
+        public virtual void ExportToExcel(string path)
+        {
+            StringBuilder sb = new StringBuilder();
+            sb.Append(CreateCoreArgs());
+            sb.Append('\"' + path + '\"');
+            sb.Append(" -output_format xlsx");
+
+            Process proc = CreateProcess(sb.ToString());
+
+            RunProcess(proc);
+        }
+
+        public virtual void ExportToCSV(string path)
+        {
+            StringBuilder sb = new StringBuilder();
+            sb.Append(CreateCoreArgs());
+            sb.Append('\"' + path + '\"');
+            sb.Append(" -output_format csv");
+
+            Process proc = CreateProcess(sb.ToString());
+
+            RunProcess(proc);
+        }
+
+        private Process CreateProcess(string args)
+        {
+
+            Process proc = new Process();
+            proc.StartInfo.UseShellExecute = false;
+            proc.StartInfo.WorkingDirectory = Path.Combine(Environment.CurrentDirectory, "Python");
+            proc.StartInfo.FileName = "python.exe";
+            proc.StartInfo.Arguments = args;
+            proc.EnableRaisingEvents = true;
+            proc.StartInfo.RedirectStandardOutput = true;
+            proc.StartInfo.RedirectStandardError = true;
+            proc.StartInfo.CreateNoWindow = true;
+
+            return proc;
+        }
+
+        private int RunProcess(Process proc)
+        {
+            int exitCode;
+
             proc.Start();
             proc.WaitForExit();
             Debug.Write(proc.StandardOutput.ReadToEnd());
             Debug.Write(proc.StandardError.ReadToEnd());
+            exitCode = proc.ExitCode;
             Debug.Write("Process exited with code " + proc.ExitCode);
             proc.Close();
 
-          
+            return exitCode;
+
         }
 
-        public virtual void ExportToExcel()
+        private string CreateCoreArgs()
         {
-            //todo: Implement this method
-        }
+            StringBuilder sb = new StringBuilder();
+            sb.Append("yield_calcs.py ");
+            sb.Append(this.Notional.ToString() + " ");
+            sb.Append(this.Rate.ToString() + " ");
+            sb.Append(this.Months.ToString() + " ");
+            sb.Append(this.Price.ToString() + " ");
 
-        public virtual void ExportToCSV()
-        {
-            //todo: Implement this method
+            if (!string.IsNullOrEmpty(this.SpeedType) &&
+                this.SpeedAmount.HasValue)
+            {
+                sb.Append(" -speed_type " + this.SpeedType.ToLower());
+                sb.Append(" -speed_amt " + this.SpeedAmount.ToString());
+            }
+
+            return sb.ToString();
+
         }
 
         #region INotifyPropertyChanged Implementation

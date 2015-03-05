@@ -213,8 +213,8 @@ def main(argv):
     # Optional args
     parser.add_argument('-speed_type', help='supports CPR, PSA, and SMM', choices=['cpr','psa','smm'])
     parser.add_argument('-speed_amt', type=float, help='speed level used in conjunction with speed_type')
-    parser.add_argument('-output_format', help='file type to export.  If xls or csv, only cashflows will be provided', 
-                        choices=['json', 'xls', 'csv'])
+    parser.add_argument('-output_format', help='file type to export.  If xlsx or csv, only cashflows will be provided', 
+                        choices=['json', 'xlsx', 'csv'])
     
     args = vars(parser.parse_args())
     
@@ -238,7 +238,7 @@ def main(argv):
         f = open(args['output_path'],'w')
         f.write(json.dumps(json_obj))
         f.close()
-    elif args['output_format'] == 'xls':
+    elif args['output_format'] == 'xlsx':
         df.to_excel(args['output_path'])
     elif args['output_format'] == 'csv':
         df.to_csv(args['output_path'])

@@ -39,11 +39,48 @@ namespace mortgage_calculator
 
         private void btnExportExcel_Click(object sender, RoutedEventArgs e)
         {
+            Microsoft.Win32.SaveFileDialog d = new Microsoft.Win32.SaveFileDialog();
+
+            d.AddExtension = true;
+            d.InitialDirectory = System.Environment.GetFolderPath(System.Environment.SpecialFolder.MyDocuments);
+            d.OverwritePrompt = true;
+            d.CheckPathExists = true;
+            d.DefaultExt = ".xlsx";
+            d.Filter = "Excel 2007-2013 Files|*.xlsx";
+            d.FileOk += (s1, e1) =>
+            {
+                Mortgage mtge = this.DataContext as Mortgage;
+                if (mtge != null)
+                {
+                    mtge.ExportToExcel(d.FileName);
+                }
+            };
+
+            d.ShowDialog();
 
         }
 
         private void btnExportCsv_Click(object sender, RoutedEventArgs e)
         {
+            Microsoft.Win32.SaveFileDialog d = new Microsoft.Win32.SaveFileDialog();
+
+            d.AddExtension = true;
+            d.InitialDirectory = System.Environment.GetFolderPath(System.Environment.SpecialFolder.MyDocuments);
+            d.OverwritePrompt = true;
+            d.CheckPathExists = true;
+            d.DefaultExt = ".csv";
+            d.Filter = "Comma-Delimited FIles|*.csv";
+            d.FileOk += (s1, e1) =>
+            {
+                Mortgage mtge = this.DataContext as Mortgage;
+                if (mtge != null)
+                {
+                    mtge.ExportToCSV(d.FileName);
+                }
+            };
+
+            d.ShowDialog();
+
 
         }
 
