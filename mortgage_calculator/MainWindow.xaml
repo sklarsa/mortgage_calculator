@@ -20,6 +20,7 @@
                 <RowDefinition Height="20" />
                 <RowDefinition Height="20" />
                 <RowDefinition Height="20" />
+                <RowDefinition Height="40" />
                 <RowDefinition Height="30" />
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
@@ -48,6 +49,19 @@
                      Text="{Binding Price,StringFormat='{}{0:0.###}',Mode=TwoWay}"/>
             <Button x:Name="btnCalculate" Grid.ColumnSpan="2" Grid.Row="5" Height="22" 
                     Width="120" Content="Calculate" Click="btnCalculate_Click" />
+            <Button x:Name="btnExportExcel" Grid.Column="0" Grid.Row="6" Height="22"
+                    Width="95" Content="Export To Excel" Click="btnExportExcel_Click" />
+            <Button x:Name="btnExportCsv" Grid.Column="1" Grid.Row="6" Height="22"
+                    Width="95" Content="Export To CSV" Click="btnExportCsv_Click" />
+        </Grid>
+        
+        <Grid Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height=".4*" />
+                <RowDefinition Height=".6*" />
+            </Grid.RowDefinitions>
+
+            <Image Source="{Binding ImageBytes}" Grid.Row="0" />
         </Grid>
         
     </Grid>

@@ -135,6 +135,17 @@ namespace mortgage_calculator.Model
             }
         }
 
+        byte[] _imageBytes;
+        public byte[] ImageBytes
+        {
+            get { return _imageBytes; }
+            set
+            {
+                _imageBytes = value;
+                NotifyPropertyChanged("ImageBytes");
+            }
+        }
+
         public ObservableCollection<Cashflow> Cashflows { get; protected set; }
 
         public virtual void Calculate()
@@ -193,6 +204,7 @@ namespace mortgage_calculator.Model
                         this.Cashflows = new ObservableCollection<Cashflow>();
                     }
 
+                    //todo: Grab image from matplotlib output and add data to ImageBytes property
 
                     File.Delete(tmpFile);
                 }
@@ -207,6 +219,16 @@ namespace mortgage_calculator.Model
             proc.Close();
 
           
+        }
+
+        public virtual void ExportToExcel()
+        {
+            //todo: Implement this method
+        }
+
+        public virtual void ExportToCSV()
+        {
+            //todo: Implement this method
         }
 
         #region INotifyPropertyChanged Implementation

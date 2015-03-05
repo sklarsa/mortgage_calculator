@@ -36,5 +36,15 @@ namespace mortgage_calculator
                 mtge.Calculate();
             }
         }
+
+        private void btnExportExcel_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void btnExportCsv_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }
