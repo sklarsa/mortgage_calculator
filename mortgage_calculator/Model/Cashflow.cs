@@ -8,6 +8,7 @@ namespace mortgage_calculator.Model
 {
     class Cashflow
     {
+        public double period { get; set; }
         public double prepayment { get; set; }
         public double total_prin { get; set; }
         public double reg_prin { get; set; }
