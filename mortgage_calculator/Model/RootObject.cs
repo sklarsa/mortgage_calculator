@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,6 +6,11 @@ using System.Threading.Tasks;
 
 namespace mortgage_calculator.Model
 {
+    /// <summary>
+    /// A wrapper object used to deserialize loan data from 
+    /// JSON output from yield_calcs.py
+    /// Generated using http://json2csharp.com/
+    /// </summary>
     class RootObject
     {
         public double macaulay_dur { get; set; }
