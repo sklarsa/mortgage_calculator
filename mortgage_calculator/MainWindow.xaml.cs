@@ -46,5 +46,18 @@ namespace mortgage_calculator
         {
 
         }
+
+        private void Hyperlink_RequestNavigate(object sender, RequestNavigateEventArgs e)
+        {
+            try
+            {
+                System.Diagnostics.Process.Start(e.Uri.AbsoluteUri);
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Error");
+            }
+            e.Handled = true;
+        }
     }
 }

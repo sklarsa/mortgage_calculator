@@ -21,6 +21,9 @@ namespace mortgage_calculator.Model
             this.SpeedType = "CPR";
             this.Cashflows = new ObservableCollection<Cashflow>();
             this.Price = 100;
+            this.Notional = 1000000;
+            this.Rate = 4;
+            this.Months = 360;
         }
 
         #endregion
@@ -146,7 +149,16 @@ namespace mortgage_calculator.Model
             }
         }
 
-        public ObservableCollection<Cashflow> Cashflows { get; protected set; }
+        ObservableCollection<Cashflow> _cashflows;
+        public ObservableCollection<Cashflow> Cashflows
+        {
+            get { return _cashflows; }
+            set 
+            { 
+                _cashflows = value;
+                NotifyPropertyChanged("Cashflows");
+            }
+        }
 
         public virtual void Calculate()
         {
@@ -160,11 +172,11 @@ namespace mortgage_calculator.Model
             sb.Append(this.Price.ToString() + " ");
             sb.Append('\"' + tmpFile + '\"');
 
-            if(string.IsNullOrEmpty(this.SpeedType) &&
+            if(!string.IsNullOrEmpty(this.SpeedType) &&
                 this.SpeedAmount.HasValue)
             {
-                sb.Append("-speed_type " + this.SpeedType);
-                sb.Append(" -speed_amt" + this.SpeedAmount.ToString());
+                sb.Append(" -speed_type " + this.SpeedType.ToLower());
+                sb.Append(" -speed_amt " + this.SpeedAmount.ToString());
             }
             
             Process proc = new Process();
@@ -175,6 +187,7 @@ namespace mortgage_calculator.Model
             proc.EnableRaisingEvents = true;
             proc.StartInfo.RedirectStandardOutput = true;
             proc.StartInfo.RedirectStandardError = true;
+            proc.StartInfo.CreateNoWindow = true;
             proc.Exited += (s, e) =>
             {
                 if (File.Exists(tmpFile))

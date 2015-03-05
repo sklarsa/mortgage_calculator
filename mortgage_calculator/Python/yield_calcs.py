@@ -244,7 +244,5 @@ def main(argv):
     elif args['output_format'] == 'csv':
         df.to_csv(args['output_path'])
 
-    if args['image_path']:
-
 if __name__ == '__main__':
     main(sys.argv[1:])
