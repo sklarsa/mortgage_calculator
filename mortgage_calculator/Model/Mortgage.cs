@@ -149,7 +149,7 @@ namespace mortgage_calculator.Model
             }
         }
 
-        public virtual void Calculate()
+        public virtual int Calculate()
         {
             string tmpFile = Path.Combine(Path.GetTempPath(), Path.GetTempFileName());
 
@@ -193,11 +193,11 @@ namespace mortgage_calculator.Model
 
             };
 
-            RunProcess(proc);
+            return RunProcess(proc);
           
         }
 
-        public virtual void ExportToExcel(string path)
+        public virtual int ExportToExcel(string path)
         {
             StringBuilder sb = new StringBuilder();
             sb.Append(CreateCoreArgs(path));
@@ -205,10 +205,10 @@ namespace mortgage_calculator.Model
 
             Process proc = CreateProcess(sb.ToString());
 
-            RunProcess(proc);
+            return RunProcess(proc);
         }
 
-        public virtual void ExportToCSV(string path)
+        public virtual int ExportToCSV(string path)
         {
             StringBuilder sb = new StringBuilder();
             sb.Append(CreateCoreArgs(path));
@@ -216,7 +216,7 @@ namespace mortgage_calculator.Model
 
             Process proc = CreateProcess(sb.ToString());
 
-            RunProcess(proc);
+            return RunProcess(proc);
         }
 
         private Process CreateProcess(string args)
