@@ -35,11 +35,16 @@ namespace mortgage_calculator
             {
                 try
                 {
+                    Mouse.OverrideCursor = Cursors.Wait;
                     mtge.Calculate();
                 }
                 catch (Exception ex)
                 {
                     MessageBox.Show(ex.Message + Environment.NewLine + ex.StackTrace, "Error");
+                }
+                finally
+                {
+                    Mouse.OverrideCursor = null;
                 }
             }
         }
