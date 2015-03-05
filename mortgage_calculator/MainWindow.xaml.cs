@@ -88,7 +88,7 @@ namespace mortgage_calculator
             d.OverwritePrompt = true;
             d.CheckPathExists = true;
             d.DefaultExt = ".csv";
-            d.Filter = "Comma-Delimited FIles|*.csv";
+            d.Filter = "Comma-Delimited Files|*.csv";
             d.FileOk += (s1, e1) =>
             {
                 Mortgage mtge = this.DataContext as Mortgage;
