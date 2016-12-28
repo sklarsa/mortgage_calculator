@@ -3,6 +3,9 @@ var gulp = require('gulp');
 var sass = require('gulp-sass');
 var cleanCss = require('gulp-clean-css')
 var rename = require('gulp-rename')
+var coffee = require('gulp-coffee')
+var uglify = require('gulp-uglify')
+
 
 gulp.task('bootstrap', function(){
 	return gulp.src('static/lib/bootstrap/stylesheets/*.scss')
@@ -24,5 +27,15 @@ gulp.task('sass', function(){
 			suffix: ".min"
 		}))
 		.pipe(gulp.dest("static/site/css/"))
-})
+});
 
+gulp.task('coffee', function(){
+	return gulp.src('static/site/coffee/*.coffee')
+		.pipe(coffee())
+		.pipe(gulp.dest("static/site/js/"))
+		.pipe(uglify())
+		.pipe(rename({
+			suffix: ".min"
+		}))
+		.pipe(gulp.dest("static/site/js/"))
+});

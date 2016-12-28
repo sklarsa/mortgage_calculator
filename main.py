@@ -9,7 +9,7 @@ app = Flask(__name__, static_url_path="/static")
 
 @app.route("/")
 def hello():
-    return render_template("base.html")
+    return render_template("index.html")
 
 
 @app.route("/api/calculate", methods=["POST"])
