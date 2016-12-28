@@ -189,3 +189,6 @@ _Pvt_Extensions/
 ModelManifest.xml
 
 *.pyc
+venv/
+*.sublime-*
+lib/
