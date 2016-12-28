@@ -212,6 +212,68 @@ def modified_dur(df, price):
     return mac_dur / (1 + r)
 
 
+class Mortgage(object):
+    """
+    An object that represents a mortgage bond.
+    """
+    def __init__(self, notional, annual_rate, months, speed=None):
+        """
+        Arguments:
+        ----------
+        notional: Notional loan amount
+        annual_rate: Annual interest rate (non-decimal)
+        months: Term of the loan in months
+
+        Optional Arguments:
+        -------------------
+        speed: Prepayment speed wrapped in a CPR, PSA or SMM object
+        """
+        self._notional = notional
+        self._annual_rate = annual_rate
+        self._months = months
+        self._speed = speed
+
+    @property
+    def notional(self):
+        return self._notional
+
+    @property
+    def annual_rate(self):
+        return self._annual_rate
+
+    @property
+    def months(self):
+        return self._months
+
+    @property
+    def speed(self):
+        return self._speed
+
+    _amortization_schedule = None
+
+    @property
+    def amortization_schedule(self):
+        """
+        Lazy loaded property
+        """
+        if self._amortization_schedule is None:
+            self._amortization_schedule = amortization_schedule(self.notional, self.annual_rate,
+                                                                self.months, self.speed)
+        return self._amortization_schedule
+
+    def yld(self, price):
+        return yld(self.amortization_schedule, price)
+
+    def wal(self):
+        return wal(self.amortization_schedule)
+
+    def mod_dur(self, price):
+        return modified_dur(self.amortization_schedule, price)
+
+    def macaulay_dur(self, price):
+        return macaulay_dur(self.amortization_schedule, price)
+
+
 def main(argv):
     parser = argparse.ArgumentParser()
     # Required args
