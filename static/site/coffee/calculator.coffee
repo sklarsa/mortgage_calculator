@@ -4,6 +4,7 @@ Mortgage =
     Months: m.prop()
     SpeedType: m.prop()
     SpeedAmt: m.prop()
+    Price: m.prop()
 
 Calculator =
     view: (ctrl) ->

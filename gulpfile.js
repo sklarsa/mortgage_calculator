@@ -39,3 +39,9 @@ gulp.task('coffee', function(){
 		}))
 		.pipe(gulp.dest("static/site/js/"))
 });
+
+gulp.task('watch', function(){
+	gulp.watch('static/site/coffee/*.coffee', ['coffee'])
+	gulp.watch('static/site/sass/*.scss', ['sass'])
+
+})

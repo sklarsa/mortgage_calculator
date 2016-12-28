@@ -6,17 +6,15 @@
     Rate: m.prop(),
     Months: m.prop(),
     SpeedType: m.prop(),
-    SpeedAmt: m.prop()
+    SpeedAmt: m.prop(),
+    Price: m.prop()
   };
 
   Calculator = {
     view: function(ctrl) {
-      alert('test 1');
       return m('div', [m('p', 'test')]);
     }
   };
-
-  alert('test 2');
 
   m.mount(document.getElementById("calculator"), Calculator);
 
