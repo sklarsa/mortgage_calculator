@@ -191,4 +191,4 @@ ModelManifest.xml
 *.pyc
 venv/
 *.sublime-*
-lib/
+/lib/
