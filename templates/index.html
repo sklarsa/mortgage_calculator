@@ -1,8 +1,15 @@
 {% extends "base.html" %}
+
+{% block scripts %}
+<script src="static/site/js/calculator.min.js"></script>
+{% endblock %}
+
 {% block content %}
 
     <h1>Mortgage Calculator</h1>
     <p class="lead">A calculator used to generate amortization schedules and basic yield analytics for whole loan mortgages and MBS pools.</p>
 
+    <div id="calculator">
+    </div>
 
 {% endblock %}
