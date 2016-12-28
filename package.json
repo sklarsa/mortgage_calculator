@@ -18,6 +18,8 @@
   "homepage": "https://github.com/sklarsa/mortgage_calculator#readme",
   "devDependencies": {
     "gulp": "^3.9.1",
+    "gulp-clean-css": "^2.3.2",
+    "gulp-rename": "^1.2.2",
     "gulp-sass": "^3.0.0"
   }
 }
