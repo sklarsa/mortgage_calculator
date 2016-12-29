@@ -16,25 +16,28 @@ def hello():
 def calculate():
     data = request.get_json()
 
-    logging.info("data %s" % data)
+    # Process params
+    notional = float(data["notional"])
+    rate = float(data["rate"])
+    months = int(data["months"])
+    price = float(data["price"])
 
     speed = None
-    if "speed" in data:
-        speed_type = data["speed"]["speed_type"]
-        speed_amt = data["speed"]["speed_amt"]
-        if speed_type == "CPR":
-            speed = CPR(speed_amt)
-        elif speed_type == "PSA":
-            speed = PSA(speed_amt)
-        elif speed_type == "SMM":
-            speed_type = SMM(speed_amt)
-        else:
-            raise Exception("Speed type {0} not supported".format(speed_type))
+    speed_type = data["speed_type"]
+    speed_amt = float(data["speed_amt"])
+    if speed_type == "CPR":
+        speed = CPR(speed_amt)
+    elif speed_type == "PSA":
+        speed = PSA(speed_amt)
+    elif speed_type == "SMM":
+        speed_type = SMM(speed_amt)
+    else:
+        raise Exception("Speed type {0} not supported".format(speed_type))
 
     mtg = Mortgage(
-        data["notional"],
-        data["rate"],
-        data["months"],
+        notional,
+        rate,
+        months,
         speed=speed
     )
 

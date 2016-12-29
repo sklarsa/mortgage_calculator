@@ -17,7 +17,6 @@
 
   Result = (function() {
     function Result(obj) {
-      debugger;
       var c;
       this.amortization_schedule = m.prop((function() {
         var i, len, ref, results;
@@ -79,7 +78,8 @@
                   type: 'number',
                   "class": 'form-control',
                   id: 'notional',
-                  value: vm.mortgage().notional()
+                  value: vm.mortgage().notional(),
+                  onchange: m.withAttr("value", vm.mortgage().notional)
                 })
               ]), m('.form-group', [
                 m('label', {
@@ -88,7 +88,8 @@
                   type: 'number',
                   "class": 'form-control',
                   id: 'rate',
-                  value: vm.mortgage().rate()
+                  value: vm.mortgage().rate(),
+                  onchange: m.withAttr("value", vm.mortgage().rate)
                 })
               ]), m('.form-group', [
                 m('label', {
@@ -97,7 +98,8 @@
                   type: 'number',
                   "class": 'form-control',
                   id: 'months',
-                  value: vm.mortgage().months()
+                  value: vm.mortgage().months(),
+                  onchange: m.withAttr("value", vm.mortgage().months)
                 })
               ]), m('.form-group', [
                 m('label', {
@@ -105,7 +107,8 @@
                 }, 'Speed Type'), m('select', {
                   "class": 'form-control',
                   id: 'speed_type',
-                  value: vm.mortgage().speed_type()
+                  value: vm.mortgage().speed_type(),
+                  onchange: m.withAttr("value", vm.mortgage().speed_type)
                 }, [m('option', 'CPR'), m('option', 'PSA'), m('option', 'SMM')])
               ]), m('.form-group', [
                 m('label', {
@@ -114,7 +117,8 @@
                   type: 'number',
                   "class": 'form-control',
                   id: 'speed_amt',
-                  value: vm.mortgage().speed_amt()
+                  value: vm.mortgage().speed_amt(),
+                  onchange: m.withAttr("value", vm.mortgage().speed_amt)
                 })
               ]), m('.form-group', [
                 m('label', {
@@ -123,7 +127,8 @@
                   type: 'number',
                   "class": 'form-control',
                   id: 'price',
-                  value: vm.mortgage().price()
+                  value: vm.mortgage().price(),
+                  onchange: m.withAttr("value", vm.mortgage().price)
                 })
               ]), m('button', {
                 type: 'submit',
@@ -152,7 +157,6 @@
                 results = [];
                 for (i = 0, len = ref.length; i < len; i++) {
                   p = ref[i];
-                  console.log(p);
                   results.push(m('tr', [m('td', p.sched_pmt), m('td', p.interest), m('td', p.reg_prin), m('td', p.prepayment), m('td', p.total_prin), m('td', p.balance), m('td', p.total_pmt)]));
                 }
                 return results;

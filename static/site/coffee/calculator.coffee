@@ -9,7 +9,6 @@ class Mortgage
 
 class Result
     constructor: (obj) ->
-        debugger
         @amortization_schedule = m.prop(c for c in JSON.parse(obj.amortization_schedule))
         @yield = m.prop(obj.yield)
         @wal = m.prop(obj.wal)
@@ -46,19 +45,42 @@ Input =
                     m 'form', [
                         m '.form-group', [
                             m 'label', {for: 'notional'}, 'Notional'
-                            m 'input', {type: 'number', class: 'form-control', id: 'notional', value: vm.mortgage().notional()}
+                            m 'input', {
+                                type: 'number'
+                                class: 'form-control'
+                                id: 'notional'
+                                value: vm.mortgage().notional()
+                                onchange: m.withAttr("value", vm.mortgage().notional)
+                            }
                         ]
                         m '.form-group', [
                             m 'label', {for: 'rate'}, 'Rate'
-                            m 'input', {type: 'number', class: 'form-control', id: 'rate', value: vm.mortgage().rate()}
+                            m 'input', {
+                                type: 'number'
+                                class: 'form-control'
+                                id: 'rate'
+                                value: vm.mortgage().rate()
+                                onchange: m.withAttr("value", vm.mortgage().rate)
+                            }
                         ]
                         m '.form-group', [
                             m 'label', {for: 'months'}, 'Months'
-                            m 'input', {type: 'number', class: 'form-control', id: 'months', value: vm.mortgage().months()}
+                            m 'input', {
+                                type: 'number'
+                                class: 'form-control'
+                                id: 'months'
+                                value: vm.mortgage().months()
+                                onchange: m.withAttr("value", vm.mortgage().months)
+                            }
                         ]
                         m '.form-group', [
                             m 'label', {for: 'speed_type'}, 'Speed Type'
-                            m 'select', {class: 'form-control', id: 'speed_type', value: vm.mortgage().speed_type()}, [
+                            m 'select', {
+                                class: 'form-control'
+                                id: 'speed_type'
+                                value: vm.mortgage().speed_type()
+                                onchange: m.withAttr("value", vm.mortgage().speed_type)
+                            }, [
                                 m 'option', 'CPR'
                                 m 'option', 'PSA'
                                 m 'option', 'SMM'
@@ -66,11 +88,23 @@ Input =
                         ]
                         m '.form-group', [
                             m 'label', {for: 'speed_amt'}, 'Speed Amount'
-                            m 'input', {type: 'number', class: 'form-control', id: 'speed_amt', value: vm.mortgage().speed_amt()}
+                            m 'input', {
+                                type: 'number'
+                                class: 'form-control'
+                                id: 'speed_amt'
+                                value: vm.mortgage().speed_amt()
+                                onchange: m.withAttr("value", vm.mortgage().speed_amt)
+                            }
                         ]
                         m '.form-group', [
                             m 'label', {for: 'price'}, 'Price'
-                            m 'input', {type: 'number', class: 'form-control', id: 'price', value: vm.mortgage().price()}
+                            m 'input', {
+                                type: 'number'
+                                class: 'form-control'
+                                id: 'price'
+                                value: vm.mortgage().price()
+                                onchange: m.withAttr("value", vm.mortgage().price)
+                            }
                         ]
                         m 'button', {type: 'submit', class: 'btn btn-default', onclick: ctrl.submit}, 'Get Bond Analytics'
                     ]
@@ -98,7 +132,6 @@ Output =
                         ]
                         m 'tbody', [
                             for p in vm.result().amortization_schedule()
-                                console.log p
                                 m 'tr', [
                                     m 'td', p.sched_pmt
                                     m 'td', p.interest
