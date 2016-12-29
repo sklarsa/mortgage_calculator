@@ -1,23 +1,31 @@
 class Mortgage
     constructor: (obj) ->
-        @notional = m.prop(1000000)
-        @rate = m.prop(5)
-        @months = m.prop(360)
-        @speed_type = m.prop("CPR")
-        @speed_amt = m.prop(0)
-        @price = m.prop(100)
+        @notional = m.prop(obj.notional)
+        @rate = m.prop(obj.rate)
+        @months = m.prop(obj.months)
+        @speed_type = m.prop(obj.speed_type)
+        @speed_amt = m.prop(obj.speed_amt)
+        @price = m.prop(obj.price)
 
 class Result
     constructor: (obj) ->
-        @amortization_schedule = m.prop()
-        @yield = m.prop()
-        @wal = m.prop()
-        @mod_dur = m.prop()
-        @macaulay_dur = m.prop()
+        debugger
+        @amortization_schedule = m.prop(c for c in JSON.parse(obj.amortization_schedule))
+        @yield = m.prop(obj.yield)
+        @wal = m.prop(obj.wal)
+        @mod_dur = m.prop(obj.mod_dur)
+        @macaulay_dur = m.prop(obj.macaulay_dur)
 
 vm =
-    mortgage: m.prop(new Mortgage())
-    result: m.prop(new Result())
+    mortgage: m.prop(new Mortgage({
+        notional: 1000000
+        rate: 5
+        months: 360
+        speed_type: "CPR"
+        speed_amt: 0
+        price: 100
+    }))
+    result: m.prop()
 
 Input =
     controller: ->
@@ -31,7 +39,6 @@ Input =
                 data: vm.mortgage()
             ).then (result) ->
                 vm.result(result)
-                debugger
     view: (ctrl) ->
         m 'div', [
             m '.row', [
@@ -71,9 +78,47 @@ Input =
             ]
         ]
 
+Output =
+    view: (ctrl) ->
+        m 'div', [
+            if vm.result()?
+                m 'div', [
+                    m 'h3', 'Amortization Schedule'
+                    m 'table', {class: 'table table-striped'}, [
+                        m 'thead', [
+                            m 'tr', [
+                                m 'td', 'Sched Pmt'
+                                m 'td', 'Interest'
+                                m 'td', 'Reg Prin'
+                                m 'td', 'Prepayment'
+                                m 'td', 'Total Prin'
+                                m 'td', 'Balance'
+                                m 'td', 'Total Pmt'
+                            ]
+                        ]
+                        m 'tbody', [
+                            for p in vm.result().amortization_schedule()
+                                console.log p
+                                m 'tr', [
+                                    m 'td', p.sched_pmt
+                                    m 'td', p.interest
+                                    m 'td', p.reg_prin
+                                    m 'td', p.prepayment
+                                    m 'td', p.total_prin
+                                    m 'td', p.balance
+                                    m 'td', p.total_pmt
+                                ]
+                        ]
+                    ]
+                ]
+        ]
 
 Calculator =
     view: (ctrl) ->
-        m.component Input
+        m 'div', [
+            m.component Input
+            m.component Output
+        ]
+
 
 m.mount document.getElementById("calculator"), Calculator
