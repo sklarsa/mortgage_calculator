@@ -1,5 +1,5 @@
 (function() {
-  var Calculator, Input, Mortgage, Output, Result, vm;
+  var AmortizationSchedule, AnalyticsIO, Calculator, Mortgage, Result, vm;
 
   Mortgage = (function() {
     function Mortgage(obj) {
@@ -19,11 +19,11 @@
     function Result(obj) {
       var c;
       this.amortization_schedule = m.prop((function() {
-        var i, len, ref, results;
+        var j, len, ref, results;
         ref = JSON.parse(obj.amortization_schedule);
         results = [];
-        for (i = 0, len = ref.length; i < len; i++) {
-          c = ref[i];
+        for (j = 0, len = ref.length; j < len; j++) {
+          c = ref[j];
           results.push(c);
         }
         return results;
@@ -50,7 +50,7 @@
     result: m.prop()
   };
 
-  Input = {
+  AnalyticsIO = {
     controller: function() {
       return {
         submit: function(e) {
@@ -69,7 +69,7 @@
     view: function(ctrl) {
       return m('div', [
         m('.row', [
-          m('.col-md-6 col-md-offset-3', [
+          m('.col-md-6', [
             m('form', [
               m('.form-group', [
                 m('label', {
@@ -136,28 +136,32 @@
                 onclick: ctrl.submit
               }, 'Get Bond Analytics')
             ])
+          ]), m('.col-md-6', [
+            m('h4', 'Results:'), m('table', {
+              "class": 'table table-striped table-bordered'
+            }, [m('tbody', [m('tr', [m('td', 'Yield'), m('td', vm.result() != null ? vm.result()["yield"]() : '')]), m('tr', [m('td', 'WAL'), m('td', vm.result() != null ? vm.result().wal() : '')]), m('tr', [m('td', 'Mod Dur'), m('td', vm.result() != null ? vm.result().mod_dur() : '')]), m('tr', [m('td', 'Macaulay Dur'), m('td', vm.result() != null ? vm.result().macaulay_dur() : '')])])])
           ])
         ])
       ]);
     }
   };
 
-  Output = {
+  AmortizationSchedule = {
     view: function(ctrl) {
-      var p;
+      var i, p;
       return m('div', [
         vm.result() != null ? m('div', [
           m('h3', 'Amortization Schedule'), m('table', {
             "class": 'table table-striped'
           }, [
-            m('thead', [m('tr', [m('td', 'Sched Pmt'), m('td', 'Interest'), m('td', 'Reg Prin'), m('td', 'Prepayment'), m('td', 'Total Prin'), m('td', 'Balance'), m('td', 'Total Pmt')])]), m('tbody', [
+            m('thead', [m('tr', [m('td', 'Period'), m('td', 'Sched Pmt'), m('td', 'Interest'), m('td', 'Reg Prin'), m('td', 'Prepayment'), m('td', 'Total Prin'), m('td', 'Balance'), m('td', 'Total Pmt')])]), m('tbody', [
               (function() {
-                var i, len, ref, results;
+                var j, len, ref, results;
                 ref = vm.result().amortization_schedule();
                 results = [];
-                for (i = 0, len = ref.length; i < len; i++) {
+                for (i = j = 0, len = ref.length; j < len; i = ++j) {
                   p = ref[i];
-                  results.push(m('tr', [m('td', p.sched_pmt), m('td', p.interest), m('td', p.reg_prin), m('td', p.prepayment), m('td', p.total_prin), m('td', p.balance), m('td', p.total_pmt)]));
+                  results.push(m('tr', [m('td', i), m('td', p.sched_pmt), m('td', p.interest), m('td', p.reg_prin), m('td', p.prepayment), m('td', p.total_prin), m('td', p.balance), m('td', p.total_pmt)]));
                 }
                 return results;
               })()
@@ -170,7 +174,7 @@
 
   Calculator = {
     view: function(ctrl) {
-      return m('div', [m.component(Input), m.component(Output)]);
+      return m('div', [m.component(AnalyticsIO), m.component(AmortizationSchedule)]);
     }
   };
 

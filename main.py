@@ -43,8 +43,6 @@ def calculate():
 
     if "price" not in data:
         price = 100.0
-    else:
-        price = data["price"]
 
     return jsonify(**{
         "amortization_schedule": mtg.amortization_schedule.to_json(orient="records"),

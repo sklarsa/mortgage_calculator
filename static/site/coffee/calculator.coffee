@@ -26,7 +26,7 @@ vm =
     }))
     result: m.prop()
 
-Input =
+AnalyticsIO =
     controller: ->
         submit: (e) ->
             e.preventDefault()
@@ -41,7 +41,7 @@ Input =
     view: (ctrl) ->
         m 'div', [
             m '.row', [
-                m '.col-md-6 col-md-offset-3', [
+                m '.col-md-6', [
                     m 'form', [
                         m '.form-group', [
                             m 'label', {for: 'notional'}, 'Notional'
@@ -109,10 +109,33 @@ Input =
                         m 'button', {type: 'submit', class: 'btn btn-default', onclick: ctrl.submit}, 'Get Bond Analytics'
                     ]
                 ]
+                m '.col-md-6', [
+                    m 'h4', 'Results:'
+                    m 'table', {class: 'table table-striped table-bordered'}, [
+                        m 'tbody', [
+                            m 'tr', [
+                                m 'td', 'Yield'
+                                m 'td', if vm.result()? then vm.result().yield() else ''
+                            ]
+                            m 'tr', [
+                                m 'td', 'WAL'
+                                m 'td', if vm.result()? then vm.result().wal() else ''
+                            ]
+                            m 'tr', [
+                                m 'td', 'Mod Dur'
+                                m 'td', if vm.result()? then vm.result().mod_dur() else ''
+                            ]
+                            m 'tr', [
+                                m 'td', 'Macaulay Dur'
+                                m 'td', if vm.result()? then vm.result().macaulay_dur() else ''
+                            ]
+                        ]
+                    ]
+                ]
             ]
         ]
 
-Output =
+AmortizationSchedule =
     view: (ctrl) ->
         m 'div', [
             if vm.result()?
@@ -121,6 +144,7 @@ Output =
                     m 'table', {class: 'table table-striped'}, [
                         m 'thead', [
                             m 'tr', [
+                                m 'td', 'Period'
                                 m 'td', 'Sched Pmt'
                                 m 'td', 'Interest'
                                 m 'td', 'Reg Prin'
@@ -131,8 +155,9 @@ Output =
                             ]
                         ]
                         m 'tbody', [
-                            for p in vm.result().amortization_schedule()
+                            for p, i in vm.result().amortization_schedule()
                                 m 'tr', [
+                                    m 'td', i
                                     m 'td', p.sched_pmt
                                     m 'td', p.interest
                                     m 'td', p.reg_prin
@@ -149,8 +174,8 @@ Output =
 Calculator =
     view: (ctrl) ->
         m 'div', [
-            m.component Input
-            m.component Output
+            m.component AnalyticsIO
+            m.component AmortizationSchedule
         ]
 
 
