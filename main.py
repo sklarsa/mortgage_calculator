@@ -1,10 +1,19 @@
 import logging
 from flask import Flask, render_template, request, jsonify
+from flask_assets import Environment, Bundle
 
 from yield_calcs import Mortgage, CPR, PSA, SMM
 
 
 app = Flask(__name__, static_url_path="/static")
+assets = Environment(app)
+
+js = Bundle('site/js/calculator.js',
+            filters='jsmin', output='output/calculator.js')
+assets.register('js_all', js)
+css = Bundle('site/css/site.css',
+             filters='cssmin', output='output/site.css')
+assets.register('css_all', css)
 
 
 @app.route("/")

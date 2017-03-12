@@ -1,7 +1,9 @@
 {% extends "base.html" %}
 
 {% block scripts %}
-<script src="static/site/js/calculator.min.js"></script>
+{% assets "js_all" %}
+    <script type="text/javascript" src="{{ ASSET_URL }}"></script>
+{% endassets %}
 {% endblock %}
 
 {% block content %}

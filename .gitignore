@@ -192,3 +192,6 @@ ModelManifest.xml
 venv/
 *.sublime-*
 /lib/
+
+.webassets-cache/
+static/output/
